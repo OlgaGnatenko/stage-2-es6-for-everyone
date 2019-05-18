@@ -1,10 +1,10 @@
-import { callApi } from '../helpers/apiHelper';
+import { callApi } from "../helpers/apiHelper";
 
 class FighterService {
   async getFighters() {
     try {
-      const endpoint = 'fighters.json';
-      const apiResult = await callApi(endpoint, 'GET');
+      const endpoint = "fighters.json";
+      const apiResult = await callApi(endpoint, "GET");
 
       return JSON.parse(atob(apiResult.content));
     } catch (error) {
