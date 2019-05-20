@@ -1,6 +1,7 @@
 import { callApi } from "../helpers/apiHelper";
 
 class FighterService {
+
   async getFighters() {
     try {
       const endpoint = "fighters.json";
