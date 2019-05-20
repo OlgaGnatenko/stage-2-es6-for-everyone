@@ -1,21 +1,28 @@
 import View from "./view";
 import FightersView from "./fightersView";
 import SelectFightersView from "./selectFightersView";
+import CombatView from "./CombatView";
 
 class GameView extends View {
-  fighters;
   fighter1;
   fighter2;
 
   constructor(fighters) {
     super();
 
+    if (fighters.length) {
+      this.fighter1 = fighters[0];
+      this.fighter2 = fighters[0];
+    }
+
+    this.startGameClick = this.startGameClickHandler.bind(this);
+    this.selectFighter = this.selectFighterHandler.bind(this);
     this.createGame(fighters);
   }
 
-  createGame(fighters) {
-    this.fighters = fighters;
+  static rootElement = document.getElementById("root");
 
+  createGame(fighters) {
     const logo = this.createLogo("../../../resources/logo.png");
     const gamePanel = this.createGamePanel(fighters);
 
@@ -24,10 +31,13 @@ class GameView extends View {
 
     this.element = this.createElement({
       tagName: "div",
-      className: "game"
+      className: "game",
+      attributes: {
+        id: "game"
+      }
     });
     this.element.append(logo, fightersElement, gamePanel);
-    this.element.addEventListener("selectFighters", this.selectFightersHandler);
+    this.element.addEventListener("selectFighter", this.selectFighter);
   }
 
   createGamePanel(fighters) {
@@ -42,19 +52,20 @@ class GameView extends View {
     return gamePanel;
   }
 
-  createStartGameBtn(startGameClick) {
+  createStartGameBtn(startGame) {
     const startGameBtn = this.createElement({
       tagName: "button",
       className: "start-game"
     });
     startGameBtn.innerHTML = "Start Game";
-    startGameBtn.onclick = startGameClick;
+    startGameBtn.onclick = startGame;
     return startGameBtn;
   }
 
-  startGameClick() {
-    console.log("start game");
-    return;
+  startGameClickHandler() {
+    const combatView = new CombatView(this.fighter1, this.fighter2);
+    GameView.rootElement.append(combatView.element);
+    this.element.style.visibility = "hidden";
   }
 
   createLogo(source) {
@@ -72,8 +83,17 @@ class GameView extends View {
     return logo;
   }
 
-  selectFightersHandler(event) {
-    console.log("selectFightersHandler", event);
+  selectFighterHandler(event) {
+    const { detail } = event;
+    detail.order === "1"
+      ? (this.fighter1 = detail.selectedFighter)
+      : (this.fighter2 = detail.selectedFighter);
+    console.log(
+      "selectFighterHandler",
+      event.detail,
+      this.fighter1,
+      this.fighter2
+    );
   }
 }
 

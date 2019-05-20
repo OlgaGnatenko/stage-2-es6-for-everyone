@@ -66,7 +66,7 @@ class SelectFighterView extends View {
       bubbles: true,
       detail: {
         order,
-        selectedFighter
+        selectedFighter: this.selectedFighter
       }
     });
     this.element.dispatchEvent(selectFighterEvent);
