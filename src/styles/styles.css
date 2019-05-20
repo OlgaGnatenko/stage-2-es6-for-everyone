@@ -13,6 +13,8 @@ body {
   justify-content: center;
   height: 100%;
   width: 100%;
+  font-family: "Rakkas";
+  min-width: 400px;
 }
 
 .fighters {
@@ -59,6 +61,47 @@ body {
   visibility: hidden;
 }
 
-.game {
+#game {
   display: flex;
+  flex-direction: column;
+}
+
+.game-panel {
+  display: flex;
+  height: 200px;
+  justify-content: space-between;
+  margin: 20px 50px;
+  align-items: center;
+}
+
+.select-fighters {
+  display: flex;
+  margin: 15px 20px;
+  flex: 1 1 0;
+}
+
+.select-fighter-container {
+  flex: 1 1 0;
+}
+
+.select-fighter-label {
+  font-size: 24px;
+  margin: 5px 10px;
+}
+
+.select-fighter {
+  font-family: "Rakkas", cursive;
+  font-size: 20px;
+}
+
+.start-game {
+  width: 150px;
+  height: 50px;
+  font-family: "Rakkas", cursive;
+  font-size: 20px;
+}
+
+.start-game:hover,
+.select-fighter:hover {
+  box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.06);
 }

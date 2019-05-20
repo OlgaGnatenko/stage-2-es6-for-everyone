@@ -8,8 +8,8 @@ class Fight {
   winner;
 
   constructor(fighter1, fighter2) {
-    this.fighter1 = fighter1;
-    this.fighter2 = fighter2;
+    this.fighter1 = new Fighter(fighter1);
+    this.fighter2 = new Fighter(fighter2);
     this.fightRound = 0;
     this.gameOver = false;
     this.winner = null;

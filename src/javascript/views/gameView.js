@@ -6,6 +6,7 @@ import CombatView from "./CombatView";
 class GameView extends View {
   fighter1;
   fighter2;
+  fightersDetailsMap = new Map();
 
   constructor(fighters) {
     super();
