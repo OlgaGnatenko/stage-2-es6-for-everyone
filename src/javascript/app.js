@@ -1,5 +1,6 @@
 import GameView from "./views/gameView";
 import { fighterService } from "./services/fightersService";
+import APP_CONSTANTS from './helpers/constants';
 
 class App {
   constructor() {
@@ -20,7 +21,7 @@ class App {
       App.rootElement.appendChild(gameElement);
     } catch (error) {
       console.warn(error);
-      App.rootElement.innerText = "Failed to load data";
+      App.rootElement.innerText = APP_CONSTANTS.FAILED_TO_LOAD_TEXT;
     } finally {
       App.loadingElement.style.visibility = "hidden";
     }

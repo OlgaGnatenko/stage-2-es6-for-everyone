@@ -2,11 +2,14 @@ import View from "./view";
 import FightersView from "./fightersView";
 import SelectFightersView from "./selectFightersView";
 import CombatView from "./CombatView";
+import { fighterService } from "../services/fightersService";
+import APP_CONSTANTS from "../helpers/constants";
 
 class GameView extends View {
   fighter1;
   fighter2;
-  fightersDetailsMap = new Map();
+
+  fightersView;
 
   constructor(fighters) {
     super();
@@ -22,13 +25,14 @@ class GameView extends View {
   }
 
   static rootElement = document.getElementById("root");
+  static loadingElement = document.getElementById("loading-overlay");
 
   createGame(fighters) {
     const logo = this.createLogo("../../../resources/logo.png");
     const gamePanel = this.createGamePanel(fighters);
 
-    const fightersView = new FightersView(fighters);
-    const fightersElement = fightersView.element;
+    this.fightersView = new FightersView(fighters);
+    const fightersElement = this.fightersView.element;
 
     this.element = this.createElement({
       tagName: "div",
@@ -63,10 +67,32 @@ class GameView extends View {
     return startGameBtn;
   }
 
-  startGameClickHandler() {
-    const combatView = new CombatView(this.fighter1, this.fighter2);
-    GameView.rootElement.append(combatView.element);
-    this.element.style.visibility = "hidden";
+  async startGameClickHandler() {
+    // get fighter details if they have not been received yet
+    try {
+      const fightersDetailsMap = this.fightersView.fightersDetailsMap;
+      const _ids = [this.fighter1._id, this.fighter2._id];
+
+      GameView.loadingElement.style.visibility = "visible";
+      GameView.rootElement.style.visibility = "hidden";
+
+      _ids.forEach(async (_id) => {
+        if (!fightersDetailsMap.get(_id)) {
+          await fighterService.updateFighterDetails(_id, fightersDetailsMap);
+        }
+      });
+
+      GameView.rootElement.style.visibility = "visible";
+      const combatView = new CombatView(this.fighter1, this.fighter2);
+      GameView.rootElement.append(combatView.element);
+
+      this.element.style.visibility = "hidden";
+    } catch (error) {
+      App.rootElement.innerText = APP_CONSTANTS.FAILED_TO_LOAD_TEXT;
+      throw error;
+    } finally {
+      GameView.loadingElement.style.visibility = "hidden";
+    }
   }
 
   createLogo(source) {

@@ -26,15 +26,12 @@ class FightersView extends View {
   }
 
   async handleFighterClick(event, fighter) {
-    // show modal with fighter info
     const selectedFighter = this.fightersDetailsMap.get(fighter._id);
     try {
       if (!selectedFighter) {
-        const fighterDetails = await fighterService.getFighterDetails(
-          fighter._id
-        );
-        this.fightersDetailsMap.set(fighter._id, fighterDetails);
+        await fighterService.updateFighterDetails(fighter._id, this.fightersDetailsMap);
       }
+      // show modal with fighter info
     } catch (error) {
       throw error;
     } finally {
