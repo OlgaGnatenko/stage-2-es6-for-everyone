@@ -1,6 +1,6 @@
-import View from "../view";
+import View from "./view";
 import activeFighterView from "./activeFighterView";
-import Fight from "../fight";
+import Fight from "../classes/fight";
 
 class FightView extends View {
   fight;
@@ -13,7 +13,7 @@ class FightView extends View {
   }
 
   createFighters(fighter1, fighter2) {
-    // activeFighterView fro 2 players 
+    // activeFighterView for 2 players 
   }
 
   createNextRoundBtn(handleNextRoundClick) {

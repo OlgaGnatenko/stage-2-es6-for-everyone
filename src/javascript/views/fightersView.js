@@ -1,4 +1,4 @@
-import View from "../view";
+import View from "./view";
 import FighterView from "./fighterView";
 import { fighterService } from "../services/fightersService";
 

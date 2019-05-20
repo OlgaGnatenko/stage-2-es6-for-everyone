@@ -1,4 +1,4 @@
-import View from "../view";
+import View from "./view";
 
 class ActiveFighterView extends View {
   constructor() {
