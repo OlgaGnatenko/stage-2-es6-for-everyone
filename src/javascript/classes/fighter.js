@@ -25,7 +25,7 @@ class Fighter {
   takeHit(hit) {
     const healthChange = hit > 0 ? hit : 0; // if hit is < 0, fighter avoided the hit
     this.fighterStatus.health -= healthChange;
-    if (this.fighterStatus.health < 0) {
+    if (this.fighterStatus.health <= 0) {
       this.fighterStatus.health = 0;
       this.alive = false;
     }

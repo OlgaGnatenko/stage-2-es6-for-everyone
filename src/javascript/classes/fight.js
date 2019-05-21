@@ -19,9 +19,12 @@ class Fight {
     if (this.gameOver) {
       return;
     }
+    this.fightRound++;
 
-    const fighter1Hit = fighter1.getHitPower() - this.fighter2.getBlockPower();
-    const fighter2Hit = fighter2.getHitPower() - this.fighter1.getBlockPower();
+    const fighter1Hit =
+      this.fighter1.getHitPower() - this.fighter2.getBlockPower();
+    const fighter2Hit =
+      this.fighter2.getHitPower() - this.fighter1.getBlockPower();
 
     this.fighter1.takeHit(fighter1Hit);
     this.fighter2.takeHit(fighter2Hit);
@@ -36,7 +39,17 @@ class Fight {
       return; // game ends in a draw
     }
 
-    this.fighter1.alive ? (this.winner = fighter1) : (this.winner = fighter2);
+    if (this.fighter1.alive) {
+      this.winner = {
+        fighter: this.fighter1,
+        order: 1
+      };
+    } else {
+      this.winner = {
+        fighter: this.fighter2,
+        order: 2
+      };
+    }
   }
 }
 

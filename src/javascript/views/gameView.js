@@ -1,7 +1,7 @@
 import View from "./view";
 import FightersView from "./fightersView";
 import SelectFightersView from "./selectFightersView";
-import CombatView from "./CombatView";
+import FightView from "./fightView";
 import { fighterService } from "../services/fightersService";
 import APP_CONSTANTS from "../helpers/constants";
 
@@ -76,19 +76,20 @@ class GameView extends View {
       GameView.loadingElement.style.visibility = "visible";
       GameView.rootElement.style.visibility = "hidden";
 
-      _ids.forEach(async (_id) => {
+      for (const _id of _ids) {
         if (!fightersDetailsMap.get(_id)) {
           await fighterService.updateFighterDetails(_id, fightersDetailsMap);
         }
-      });
+      }
 
       GameView.rootElement.style.visibility = "visible";
-      const combatView = new CombatView(this.fighter1, this.fighter2);
-      GameView.rootElement.append(combatView.element);
+      const fightersDetails = _ids.map(_id => fightersDetailsMap.get(_id));
+      const fightView = new FightView(fightersDetails[0], fightersDetails[1]);
+      GameView.rootElement.append(fightView.element);
 
       this.element.style.visibility = "hidden";
     } catch (error) {
-      App.rootElement.innerText = APP_CONSTANTS.FAILED_TO_LOAD_TEXT;
+      GameView.rootElement.innerText = APP_CONSTANTS.FAILED_TO_LOAD_TEXT;
       throw error;
     } finally {
       GameView.loadingElement.style.visibility = "hidden";
@@ -100,13 +101,14 @@ class GameView extends View {
       tagName: "div",
       className: "fighter-logo"
     });
-    // const logoImg = this.createElement({
-    //   tagName: "img",
-    //   attributes: {
-    //     src: source
-    //   }
-    // });
-    // logo.append(logoImg);
+    const logoImg = this.createElement({
+      tagName: "img",
+      className: "logo-image",
+      attributes: {
+        src: source
+      }
+    });
+    logo.append(logoImg);
     return logo;
   }
 
@@ -115,12 +117,6 @@ class GameView extends View {
     detail.order === "1"
       ? (this.fighter1 = detail.selectedFighter)
       : (this.fighter2 = detail.selectedFighter);
-    console.log(
-      "selectFighterHandler",
-      event.detail,
-      this.fighter1,
-      this.fighter2
-    );
   }
 }
 
