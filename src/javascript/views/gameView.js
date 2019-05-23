@@ -2,7 +2,7 @@ import View from "./view";
 import FightersView from "./fightersView";
 import SelectFightersView from "./selectFightersView";
 import FightView from "./fightView";
-import { fighterService } from "../services/fightersService";
+import { fightersService } from "../services/fightersService";
 import APP_CONSTANTS from "../helpers/constants";
 
 class GameView extends View {
@@ -78,16 +78,15 @@ class GameView extends View {
 
       for (const _id of _ids) {
         if (!fightersDetailsMap.get(_id)) {
-          await fighterService.updateFighterDetails(_id, fightersDetailsMap);
+          await fightersService.updateFighterDetails(_id, fightersDetailsMap);
         }
       }
 
-      GameView.rootElement.style.visibility = "visible";
       const fightersDetails = _ids.map(_id => fightersDetailsMap.get(_id));
       const fightView = new FightView(fightersDetails[0], fightersDetails[1]);
       GameView.rootElement.append(fightView.element);
-
-      this.element.style.visibility = "hidden";
+      GameView.rootElement.style.visibility = "visible";
+      this.element.style.display = "none";
     } catch (error) {
       GameView.rootElement.innerText = APP_CONSTANTS.FAILED_TO_LOAD_TEXT;
       throw error;

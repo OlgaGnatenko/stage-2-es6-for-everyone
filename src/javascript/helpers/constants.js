@@ -3,5 +3,6 @@ export default {
   START_NEW_GAME: "Start New Game",
   FIGHT: "Fight",
   DRAW: "Draw",
-  NEXT_ROUND: "Next Round"
+  NEXT_ROUND: "Next Round",
+  UPDATE: "Update"
 };

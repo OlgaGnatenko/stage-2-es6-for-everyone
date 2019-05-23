@@ -4,11 +4,6 @@ import ActiveFighterView from "./activeFighterView";
 import APP_CONSTANTS from "../helpers/constants";
 
 class FightView extends View {
-  fight;
-  fighterView1;
-  fighterView2;
-  maxHealth;
-
   constructor(fighter1, fighter2) {
     super();
     this.fight = new Fight(fighter1, fighter2);
@@ -22,6 +17,11 @@ class FightView extends View {
 
     this.createFightView(fighter1, fighter2);
   }
+
+  fight;
+  fighterView1;
+  fighterView2;
+  maxHealth;
 
   createFightView(fighter1, fighter2) {
     this.element = this.createElement({
@@ -81,7 +81,7 @@ class FightView extends View {
 
   backBtnHandleClick() {
     const gameElement = document.getElementById("game");
-    gameElement.style.visibility = "visible";
+    gameElement.style.display = "flex";
     this.element.parentNode.removeChild(this.element);
   }
 
@@ -99,9 +99,11 @@ class FightView extends View {
       event.target.setAttribute("disabled", true);
       const winner = this.fight.winner;
       const gameResultText = winner
-      ? `Fighter ${winner.order} wins with ${winner.fighter.fighterStatus.name}`
-      : APP_CONSTANTS.DRAW;
-      this.updateInfoPanelText(gameResultText);      
+        ? `Fighter ${winner.order} wins with ${
+            winner.fighter.fighterStatus.name
+          }`
+        : APP_CONSTANTS.DRAW;
+      this.updateInfoPanelText(gameResultText);
     }
   }
 

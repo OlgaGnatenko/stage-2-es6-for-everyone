@@ -1,6 +1,6 @@
 import { callApi } from "../helpers/apiHelper";
 
-class FighterService {
+class FightersService {
   async getFighters() {
     try {
       const endpoint = "fighters.json";
@@ -24,12 +24,15 @@ class FighterService {
 
   async updateFighterDetails(_id, fighterDetailsMap) {
     try {
-      const fighterDetails = await fighterService.getFighterDetails(_id);
-      fighterDetailsMap.set(_id, fighterDetails);
+      const fighterDetails = await fightersService.getFighterDetails(_id);
+      if (!fighterDetailsMap.get(_id)) {
+        fighterDetailsMap.set(_id, fighterDetails);
+      }
+      return fighterDetails;
     } catch (error) {
       throw error;
     }
   }
 }
 
-export const fighterService = new FighterService();
+export const fightersService = new FightersService();

@@ -1,6 +1,7 @@
 import View from "./view";
 import FighterView from "./fighterView";
-import { fighterService } from "../services/fightersService";
+import FighterDetailsView from "./fighterDetailsView";
+import { fightersService } from "../services/fightersService";
 
 class FightersView extends View {
   constructor(fighters) {
@@ -10,6 +11,8 @@ class FightersView extends View {
     this.createFighters(fighters);
   }
 
+  static modal = document.getElementById("modal");
+  static backgroundOverlay = document.getElementById("background-overlay");
   fightersDetailsMap = new Map();
 
   createFighters(fighters) {
@@ -29,15 +32,22 @@ class FightersView extends View {
     const selectedFighter = this.fightersDetailsMap.get(fighter._id);
     try {
       if (!selectedFighter) {
-        await fighterService.updateFighterDetails(fighter._id, this.fightersDetailsMap);
+        await fightersService.updateFighterDetails(
+          fighter._id,
+          this.fightersDetailsMap
+        );
       }
-      // show modal with fighter info
+      const fighterWithDetails = this.fightersDetailsMap.get(fighter._id);
+      const fighterDetailsView = new FighterDetailsView(
+        fighterWithDetails,
+        this.fightersDetailsMap
+      );
+      FightersView.modal.append(fighterDetailsView.element);
+      FightersView.backgroundOverlay.style.display = "block";
+      FightersView.modal.style.display = "block";
     } catch (error) {
       throw error;
-    } finally {
-      // make loading state for modal invisible: Could not load fighter details. Please close the modal and try again.
     }
-    // allow to edit health and power in this modal
   }
 }
 

@@ -1,5 +1,5 @@
 import GameView from "./views/gameView";
-import { fighterService } from "./services/fightersService";
+import { fightersService } from "./services/fightersService";
 import APP_CONSTANTS from './helpers/constants';
 
 class App {
@@ -14,7 +14,7 @@ class App {
     try {
       App.loadingElement.style.visibility = "visible";
 
-      const fighters = await fighterService.getFighters();
+      const fighters = await fightersService.getFighters();
       const gameView = new GameView(fighters);
       const gameElement = gameView.element;
 
