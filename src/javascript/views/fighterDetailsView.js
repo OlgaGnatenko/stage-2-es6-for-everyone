@@ -8,7 +8,6 @@ class FighterDetailsView extends View {
     this.fighter = fighter;
     this.fightersMap = fightersMap;
     this.createFighterDetailsView(fighter);
-    this.updateFighterClick = this.updateFighterClickHandler.bind(this);
   }
 
   static modal = document.getElementById("modal");
@@ -38,19 +37,17 @@ class FighterDetailsView extends View {
   }
 
   updateFighterClickHandler() {
-    console.log("click handler");
     const health = this.element.querySelector(".health-input").value;
     const attack = this.element.querySelector(".attack-input").value;
     const defense = this.element.querySelector(".defense-input").value;
 
-    const updatedFighter = Object.assign(
+    this.fighter = {
       ...this.fighter,
       health,
       attack,
       defense
-    );
-    this.fightersMap.set(updatedFighter._id, updatedFighter);
-    console.log(updatedFighter, this.fightersMap);
+    };
+    this.fightersMap.set(this.fighter._id, this.fighter);
     this.closeModal();
   }
 
@@ -130,7 +127,7 @@ class FighterDetailsView extends View {
       className: "fighter-update-btn"
     });
     updateBtn.innerHTML = APP_CONSTANTS.UPDATE;
-    updateBtn.addEventListener("click", this.updateFighterClick, false);
+    updateBtn.onclick = this.updateFighterClickHandler.bind(this);
     updateContainer.append(updateBtn);
 
     return updateContainer;

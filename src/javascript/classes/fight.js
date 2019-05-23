@@ -26,8 +26,8 @@ class Fight {
     const fighter2Hit =
       this.fighter2.getHitPower() - this.fighter1.getBlockPower();
 
-    this.fighter1.takeHit(fighter1Hit);
-    this.fighter2.takeHit(fighter2Hit);
+    this.fighter1.takeHit(fighter2Hit);
+    this.fighter2.takeHit(fighter1Hit);
 
     if (this.fighter1.alive && this.fighter2.alive) {
       return;
